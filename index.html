@@ -232,21 +232,21 @@ h2 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
   <div class="deduct" id="deduct-wrap" style="display:none;">
     <h3>減算の適用（介護保険のみ）</h3>
     <div class="drow">
-      <input type="checkbox" id="da" onclick="setTimeout(calc,0)">
+      <input type="checkbox" id="da" onchange="calc()" onclick="calc()">
       <div class="dtxt">
         <div class="dname">前年度リハ職訪問が看護職を超える（−8単位/回）</div>
         <div class="ddesc">緊急時訪問看護加算・特別管理加算・看護体制強化加算をいずれも算定していない場合に適用。</div>
       </div>
     </div>
     <div class="drow" id="db-wrap" style="display:none;">
-      <input type="checkbox" id="db" onclick="setTimeout(calc,0)">
+      <input type="checkbox" id="db" onchange="calc()" onclick="calc()">
       <div class="dtxt">
         <div class="dname">要支援で12か月超継続（−5単位、8単位減算も適用中なら合計−15単位）</div>
         <div class="ddesc">要支援者へのリハビリ訪問が12か月を超えて継続する場合に適用。</div>
       </div>
     </div>
     <div class="drow" id="dc-wrap" style="display:none;">
-      <input type="checkbox" id="dc" onclick="setTimeout(calc,0)">
+      <input type="checkbox" id="dc" onchange="calc()" onclick="calc()">
       <div class="dtxt">
         <div class="dname">Ⅰ5の2超あり（40分超・要介護265単位/要支援255単位×3回）</div>
         <div class="ddesc">1日に40分を超える場合（3回目以降が発生）、その日の訪問分（3回全て）が「Ⅰ5の2超」専用コード（要介護265単位/回・要支援255単位/回）で算定される。90%算定と同義だが実務上は固定単位数で請求する。</div>
