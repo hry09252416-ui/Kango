@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>訪問看護 料金概算シミュレーター</title>
+<title>訪問看護 料金概算シミュレーター（2026年6月改定対応）</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;font-size:15px;color:#1a1a1a;background:#f0f0ee;padding:12px;}
@@ -75,7 +75,7 @@ h2{font-size:14px;font-weight:600;margin-bottom:8px;}
 </head>
 <body>
 <div class="wrap">
-<h1>訪問看護 料金概算シミュレーター（2024年度対応）</h1>
+<h1>訪問看護 料金概算シミュレーター</h1><div style="font-size:12px;color:#888;margin-bottom:8px;">2026年6月診療報酬改定対応（管理療養費・物価対応料・ベースアップ評価料）</div>
 
 <!-- モード切替タブ -->
 <div class="tabs">
@@ -135,18 +135,62 @@ h2{font-size:14px;font-weight:600;margin-bottom:8px;}
   <div class="field" id="row-kanri">
     <label>管理療養費（月初）</label>
     <select id="kanri-type" onchange="calc()">
-      <option value="other">その他（7,670円）</option>
-      <option value="kino3">機能強化型3（8,700円）</option>
-      <option value="kino2">機能強化型2（10,030円）</option>
-      <option value="kino1">機能強化型1（13,230円）</option>
+      <option value="other">その他（7,710円）</option>
+      <option value="kino3">機能強化型3（9,030円）</option>
+      <option value="kino2">機能強化型2（10,460円）</option>
+      <option value="kino1">機能強化型1（13,760円）</option>
+      <option value="kino4">機能強化型4（9,030円・精神科向け新設）</option>
     </select>
   </div>
   <div class="field" id="row-kanri2">
     <label>管理療養費（2日目以降）</label>
     <select id="kanri2-type" onchange="calc()">
-      <option value="1">療養費1（3,000円）</option>
-      <option value="2">療養費2（2,500円）</option>
+      <option value="1" selected>単一建物20人未満（3,010円）</option>
+      <option value="2">単一建物20人以上・月15日以下（2,510円）</option>
+      <option value="3">単一建物20人以上・月16〜24日（2,310円）</option>
     </select>
+  </div>
+  <!-- ベースアップ評価料（医療保険のみ・自動計算） -->
+  <div id="row-baseup" style="display:none;">
+    <div style="background:#f0f8ee;border-radius:8px;padding:10px 12px;margin-top:6px;border:1px solid #b8ddb8;">
+      <div style="font-size:13px;font-weight:600;color:#2a6a2a;margin-bottom:8px;">訪問看護ベースアップ評価料（2026年6月改定対応）</div>
+      <div style="font-size:11px;color:#666;margin-bottom:8px;line-height:1.6;">
+        届出済みの場合は金額を入力してください。利用者1人あたり月1回自動算定されます。<br>
+        2026年6月改定：Ⅰ＝1,050円（旧780円）、Ⅱは区分により30円〜（旧10円〜）
+      </div>
+      <div class="field">
+        <label style="min-width:120px;">評価料（Ⅰ）</label>
+        <select id="bu1-sel" onchange="calc()" style="flex:1;">
+          <option value="0">算定しない</option>
+          <option value="1050" selected>1,050円（2026年6月改定後）</option>
+          <option value="780">780円（2024〜2026年5月）</option>
+        </select>
+      </div>
+      <div class="field">
+        <label style="min-width:120px;">評価料（Ⅱ）</label>
+        <select id="bu2-sel" onchange="calc()" style="flex:1;">
+          <option value="0" selected>算定しない</option>
+          <option value="30">区分1：30円</option>
+          <option value="60">区分2：60円</option>
+          <option value="90">区分3：90円</option>
+          <option value="120">区分4：120円</option>
+          <option value="150">区分5：150円</option>
+          <option value="180">区分6：180円</option>
+          <option value="210">区分7：210円</option>
+          <option value="240">区分8：240円</option>
+          <option value="270">区分9：270円</option>
+          <option value="300">区分10：300円</option>
+          <option value="360">区分11：360円</option>
+          <option value="450">区分12：450円</option>
+          <option value="600">区分13：600円</option>
+          <option value="750">区分14：750円</option>
+          <option value="900">区分15：900円</option>
+          <option value="1050">区分16：1,050円</option>
+          <option value="1200">区分17：1,200円</option>
+          <option value="1500">区分18：1,500円</option>
+        </select>
+      </div>
+    </div>
   </div>
 
   <!-- 自立支援医療（精神科のみ） -->
@@ -285,6 +329,21 @@ h2{font-size:14px;font-weight:600;margin-bottom:8px;}
   <div id="special-detail"></div>
 </div>
 
+<!-- 介護処遇改善加算（介護保険のみ） -->
+<div class="card" id="row-care-syogu" style="display:none;">
+  <h2>介護職員等処遇改善加算（2026年6月新設）</h2>
+  <div style="font-size:12px;color:#666;background:#fff8e6;padding:8px 10px;border-radius:8px;margin-bottom:8px;line-height:1.6;">
+    2026年6月から訪問看護も対象に。月の総単位数×加算率で計算。区分支給限度額の対象外。
+  </div>
+  <div class="field">
+    <label>算定区分</label>
+    <select id="care-syogu" onchange="calc()">
+      <option value="0">算定しない</option>
+      <option value="18">加算Ⅳ準拠（1.8%）</option>
+    </select>
+  </div>
+</div>
+
 <!-- 自己負担限度額 -->
 <div class="card">
   <h2>自己負担・高額療養費</h2>
@@ -323,6 +382,7 @@ h2{font-size:14px;font-weight:600;margin-bottom:8px;}
 
 <!-- 結果 -->
 <div id="nurse-detail"></div>
+<div id="bu-result-area"></div>
 <div class="rgrid" id="sub-grid" style="display:none;">
   <div class="rbox"><div class="rl">看護師訪問 小計（10割）</div><div class="rv c-blue" id="r-nsub">—</div></div>
   <div class="rbox"><div class="rl">リハビリ小計（10割）</div><div class="rv c-green" id="r-rsub">—</div></div>
@@ -346,7 +406,7 @@ h2{font-size:14px;font-weight:600;margin-bottom:8px;}
 </div>
 
 <p class="note">
-※ 2024年度診療報酬・介護報酬に基づく概算です。実際の請求は事業所・地域・状態等により異なります。<br>
+※ 2026年6月診療報酬改定対応版です（管理療養費・物価対応料を2026年度点数に更新）。実際の請求は事業所・地域・状態等により異なります。<br>
 ※ 医療保険は1点＝10円。介護保険は1単位＝10円（地域加算により異なる場合あり）。<br>
 ※ 訪問看護は外来扱いです。70歳以上は外来個人限度額を適用します。<br>
 ※ 自立支援医療と難病が同時該当する場合は低い上限額が優先されます。<br>
@@ -541,7 +601,7 @@ var AYS=[
 // ===== 状態 =====
 var mode="med"; // med / sei / ij / ys
 var rehabOn=false, specialOn=false;
-var chk={}, cntVals={};
+var chk={}, cntVals={}, buVals={};
 
 // ===== ユーティリティ =====
 function $(id){return document.getElementById(id);}
@@ -549,8 +609,8 @@ function gv(id){var e=$(id);return e?e.value:"";}
 function fmt(n){return n.toLocaleString()+"円";}
 function show(id){var e=$(id);if(e)e.style.display="";}
 function hide(id){var e=$(id);if(e)e.style.display="none";}
-function getK1(){var t=gv("kanri-type")||"other";return t==="kino1"?13230:t==="kino2"?10030:t==="kino3"?8700:7670;}
-function getK2(){return gv("kanri2-type")==="2"?2500:3000;}
+function getK1(){var t=gv("kanri-type")||"other";return t==="kino1"?13760:t==="kino2"?10460:(t==="kino3"||t==="kino4")?9030:7710;}
+function getK2(){var t=gv("kanri2-type")||"1";return t==="3"?2310:t==="2"?2510:3010;}
 function isMed(){return mode==="med"||mode==="sei";}
 function isCare(){return mode==="ij"||mode==="ys";}
 
@@ -586,6 +646,12 @@ function setMode(m){
   updateRTime();
   updateIncome();
   updateAdds();
+  // ベースアップ評価料は医療保険のみ
+  var buRow=$("row-baseup");
+  if(buRow) buRow.style.display=isMed()?"":"none";
+  // 介護処遇改善加算は介護保険のみ
+  var syoguRow=$("row-care-syogu");
+  if(syoguRow) syoguRow.style.display=isCare()?"":"none";
   calc();
 }
 
@@ -692,11 +758,18 @@ function onChk(id){
   chk[id]=el.checked;
   var cntEl=$("cnt-"+id),lblEl;
   if(cntEl){cntEl.style.display=el.checked?"block":"none";lblEl=cntEl.nextElementSibling;if(lblEl&&lblEl.tagName==="SPAN")lblEl.style.display=el.checked?"block":"none";}
+  var buWrap=$("buwrap-"+id);
+  if(buWrap) buWrap.style.display=el.checked?"block":"none";
   calc();
 }
 function onCntChange(id){
   var el=$("cnt-"+id);if(!el)return;
   cntVals[id]=Math.max(1,parseInt(el.value)||1);
+  calc();
+}
+function onBuChange(id){
+  var el=$("busel-"+id);if(!el)return;
+  buVals[id]=parseInt(el.value)||0;
   calc();
 }
 
@@ -793,6 +866,10 @@ function calcNurse(){
     rows+="<div class=\"drow2\"><div class=\"dn\">訪問看護管理療養費（月初1回・"+ktLabel+"）</div><div class=\"dv\">"+fmt(k1)+"</div></div>";
     tot+=k1;
     if(nv>1){var ks=k2*(nv-1);rows+="<div class=\"drow2\"><div class=\"dn\">訪問看護管理療養費（2日目以降・"+fmt(k2)+"/日）</div><div class=\"dv\">"+fmt(k2)+"×"+(nv-1)+"日＝"+fmt(ks)+"</div></div>";tot+=ks;}
+    // 物価対応料（2026年6月新設）
+    var buka1=60+20*Math.max(0,nv-1);
+    rows+="<div class=\"drow2\"><div class=\"dn\">訪問看護物価対応料1（月初60円＋2日目以降20円/日）<div class=\"dsub\">2026年6月新設。令和9年6月以降は200%に引上げ予定。</div></div><div class=\"dv\">"+fmt(buka1)+"</div></div>";
+    tot+=buka1;
   }
   if(detail&&rows) detail.innerHTML="<div class=\"detail\"><div class=\"detail-ttl\">基本療養費・管理療養費の内訳</div>"+rows+"</div>";
   return tot;
@@ -847,8 +924,8 @@ function calcSpecialTotal(){
   var daysToSat=startDay===0?7:(7-startDay);
   var w1=Math.min(daysToSat,totalDays), w2=Math.min(7,Math.max(0,totalDays-w1)), w3=Math.max(0,totalDays-w1-w2);
   var sw=startDay===0?1:startDay+1;
-  function cws(days,ws){var n=Math.max(0,Math.min(days,Math.max(0,3-ws+1))),e=Math.max(0,days-n);return Math.round(fees.w3*rate)*n+Math.round(fees.w4*rate)*e;}
-  return cws(w1,sw)+cws(w2,1)+cws(w3,1)+getK1()+getK2()*Math.max(0,totalDays-1);
+  function cws(days){var n=Math.min(days,3),e=Math.max(0,days-3);return Math.round(fees.w3*rate)*n+Math.round(fees.w4*rate)*e;}
+  return cws(w1)+cws(w2)+cws(w3)+getK1()+getK2()*Math.max(0,totalDays-1);
 }
 
 function calcSpecial(){
@@ -860,8 +937,8 @@ function calcSpecial(){
   var daysToSat=startDay===0?7:(7-startDay);
   var w1=Math.min(daysToSat,totalDays),w2=Math.min(7,Math.max(0,totalDays-w1)),w3=Math.max(0,totalDays-w1-w2);
   var sw=startDay===0?1:startDay+1;
-  function wSplit(d,ws){var n=Math.max(0,Math.min(d,Math.max(0,3-ws+1))),e=Math.max(0,d-n);return{norm:n,extra:e,fN:Math.round(fees.w3*rate)*n,fE:Math.round(fees.w4*rate)*e};}
-  var r1=wSplit(w1,sw),r2=wSplit(w2,1),r3=wSplit(w3,1);
+  function wSplit(d){var n=Math.min(d,3),e=Math.max(0,d-3);return{norm:n,extra:e,fN:Math.round(fees.w3*rate)*n,fE:Math.round(fees.w4*rate)*e};}
+  var r1=wSplit(w1),r2=wSplit(w2),r3=wSplit(w3);
   var baseTot=r1.fN+r1.fE+r2.fN+r2.fE+r3.fN+r3.fE;
   var kanriTot=getK1()+getK2()*Math.max(0,totalDays-1);
   var grand=baseTot+kanriTot;
@@ -892,11 +969,18 @@ function calcAdds(){
     grp.a.forEach(function(x){
       var el=$(x.id),amtEl=$("amt"+x.id);if(!el||!amtEl)return;
       if(el.checked){
-        var cnt;
-        if(x.countable&&x.u==="回") cnt=cntVals[x.id]||1;
-        else if(x.u==="回") cnt=tv;
-        else cnt=1;
-        var sub=x.f*cnt;tot+=sub;amtEl.textContent=fmt(sub);
+        var cnt,sub;
+        if(x.baseup){
+          // ベースアップ評価料：選択した金額を月1回として計算
+          sub=buVals[x.id]||0;
+          tot+=sub;
+          amtEl.textContent=sub>0?fmt(sub):"金額を選択してください";
+        } else {
+          if(x.countable&&x.u==="回") cnt=cntVals[x.id]||1;
+          else if(x.u==="回") cnt=tv;
+          else cnt=1;
+          sub=x.f*cnt;tot+=sub;amtEl.textContent=fmt(sub);
+        }
       } else amtEl.textContent="—";
     });
   });
@@ -905,7 +989,48 @@ function calcAdds(){
 
 function calc(){
   var ns=calcNurse(), rs=calcRehab(), ss=calcSpecialTotal(), as=calcAdds();
-  var tot=ns+rs+ss+as;
+  // ベースアップ評価料（医療保険のみ・自動算定）
+  var buTotal=0;
+  if(isMed()){
+    var bu1=parseInt(gv("bu1-sel")||"0")||0;
+    var bu2=parseInt(gv("bu2-sel")||"0")||0;
+    buTotal=bu1+bu2;
+  }
+  // 介護職員等処遇改善加算（介護保険のみ・総単位数×加算率）
+  var careSyoguTotal=0;
+  if(isCare()){
+    var syoguPermil=parseInt(gv("care-syogu")||"0")||0;
+    if(syoguPermil>0){
+      var baseUnits=Math.round((ns+rs+as)/10);
+      careSyoguTotal=Math.floor(baseUnits*syoguPermil/1000)*10;
+    }
+  }
+  var tot=ns+rs+ss+as+buTotal+careSyoguTotal;
+
+  // ベースアップ評価料の表示
+  var buArea=$("bu-result-area");
+  if(buArea){
+    var buHtml="";
+    if(isMed()&&buTotal>0){
+      var bu1v=parseInt(gv("bu1-sel")||"0")||0;
+      var bu2v=parseInt(gv("bu2-sel")||"0")||0;
+      buHtml='<div style="background:#f0f8ee;border-radius:8px;padding:8px 12px;margin-bottom:8px;border:1px solid #b8ddb8;font-size:12px;color:#2a6a2a;">';
+      buHtml+='<strong>ベースアップ評価料：</strong>';
+      if(bu1v>0) buHtml+=' Ⅰ '+fmt(bu1v);
+      if(bu2v>0) buHtml+=' ＋ Ⅱ '+fmt(bu2v);
+      buHtml+=' ＝ '+fmt(buTotal)+'（月1回・利用者ごと）';
+      buHtml+='</div>';
+    }
+    if(isCare()&&careSyoguTotal>0){
+      var baseUnits2=Math.round((ns+rs+as)/10);
+      var syoguPermil2=parseInt(gv("care-syogu")||"0")||0; var syoguPct2=(syoguPermil2/10).toFixed(1);
+      buHtml+='<div style="background:#fff8e6;border-radius:8px;padding:8px 12px;margin-bottom:8px;border:1px solid #f0d060;font-size:12px;color:#7a5000;">';
+      buHtml+='<strong>介護職員等処遇改善加算（'+syoguPct2+'%）：</strong>';
+      buHtml+=baseUnits2+'単位 × '+syoguPct2+'% ＝ '+Math.floor(baseUnits2*syoguPermil2/1000)+'単位 ＝ '+fmt(careSyoguTotal);
+      buHtml+='（区分支給限度額対象外）</div>';
+    }
+    buArea.innerHTML=buHtml;
+  }
 
   // サブグリッド表示
   var sg=$("sub-grid"), sr=$("special-result");
